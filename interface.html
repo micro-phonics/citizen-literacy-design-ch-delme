@@ -1,0 +1,70 @@
+<!-- place HTML elements for exercise interface here -->
+<p id="demo"></p><div>
+<div > <!-- span style="display : inline-block"> PenSize <span id="lineWidth">3</span>
+        <input type="range" id="penSize" min="1" max="30" value="3" -->
+       <button class="d-inline p-2 bg-dark text-white" onclick="sayit(quiz)">Play word</button>
+        <button  class="d-inline p-2 bg-dark text-white" onclick="canvas.erase();">Clear</button>
+        <button  class="d-inline p-2 bg-dark text-white" onclick="canvas.setOptions({numOfReturn : 2}); canvas.recognize();">Check my writing</button>
+        <!--button onclick="canvas.undo()">Undo</button -->
+        <!-- button onclick="canvas.redo()">Redo</button -->
+       <p>
+        <canvas id="canvas" width="400" height="400" style="border: 2px solid; cursor: crosshair;"></canvas>
+       </p>
+        <!-- form>
+          Language:
+          <select id="language" >
+            <option value="zh_TW">Chinese</option>
+           <option value="ja">Japanese</option>
+            <option  selected="selected" value="en">English</option>
+          </select>
+        </form>-->
+       
+        <span id="result" style="display:none"></span> </span> 
+        
+      </div>
+      
+     <script type="text/javascript" src="handwriting.canvas.js"></script> 
+        <script type="text/javascript" defer>
+    var canvas = new handwriting.Canvas(document.getElementById('canvas'), 3);
+	canvas.setOptions({numOfReturn : 2});
+	console.log(canvas.options); 
+       canvas.setLineWidth(10);
+	   console.log('line width is '+canvas.lineWidth);
+	   canvas.setOptions({language:"en"});
+	console.log(canvas.options); 
+       
+    var width = document.getElementById("demo").clientWidth
+    canvas.cxt.canvas.width  = width < 400 ? width : 400;
+    canvas.cxt.canvas.height = width < 400 ? width : 400;
+    canvas.setCallBack(function(data, err) {
+      if (err) throw err;
+      else document.getElementById("result").innerHTML = data;
+	  //data = data.toLowerCase();
+	  alert(data);	
+	    var word = GetUrlValue('quiz');
+		console.log('word is ' + word);
+	  //var word = "sat";
+	 	 if (data.includes(word)) {
+		 var msg = new SpeechSynthesisUtterance("Excellent; your handwriting is correct. Well done.");     msg.lang = "en-GB";    window.speechSynthesis.speak(msg);
+		  }
+	  else { 
+	   var msg = new SpeechSynthesisUtterance("Please try that again; you're nearly there.");     msg.lang = "en-GB";    window.speechSynthesis.speak(msg); }
+    });
+    canvas.set_Undo_Redo(true, true);
+	<!-- commented out the below cos we arent using pensize options..-->
+   <!--  var penSize = document.getElementById("penSize"); -->
+     <!-- penSize.addEventListener("mousemove", function(){ -->
+		 <!-- document.getElementById("lineWidth").innerHTML = penSize.value;   -->  
+		 <!-- }); -->
+     <!-- penSize.addEventListener("change", function(){ -->
+		 <!-- canvas.setLineWidth(penSize.value); -->
+		 <!-- }); -->
+		function changeImage(a) {document.getElementById("scoreimg").src=a;}
+	
+  </script>
+<!-- place HTML elements for exercise interface here -->
+<script type="text/javascript" src="script.js"></script>
+<div class="footer" style="display: none;">
+    <audio src="/wip/citizenliteracy/audio/correct.mp3" controls id="correctAudio"></audio>
+    <audio src="/wip/citizenliteracy/audio/incorrect.mp3" controls id="incorrectAudio"></audio>
+</div>

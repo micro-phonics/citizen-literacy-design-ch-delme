@@ -1,0 +1,12 @@
+/* place styles unique to 2.1 here */
+
+.grapheme {
+    width: 40%;
+    font-size: .9em;
+    min-height: 50px;
+    font-size: 1.2em;
+}
+
+.grapheme img {
+    width: 100%;
+}
